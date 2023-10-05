@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainlayout}">
+<head>
+<title>인사관리시스템</title>
+</head>
+<body>
+	<main layout:fragment="content">
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function() {
+			var data = /*[[${board.category}]]*/
+			$("#category").val(data).attr("selected", "selected");
+			$("#category option").attr("disabled", "disabled")
+		});
+	</script>
+	<form class="form-horizontal" action="board/update" method="post">
+
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="id" class="control-label">번호</label>
+			</div>
+			<div class="col-md-8" th:text="${board.board_no }"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="id" class="control-label">게시글종류</label>
+			</div>
+
+			<div class="col-md-3">
+				<select name="category" class="form-control" id="category">
+					<option value="경조사">경조사</option>
+					<option value="사내소식">사내소식</option>
+					<option value="게시판">게시판(익명)</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="id" class="control-label">작성자</label>
+			</div>
+			<div class="col-md-8" th:text="${board.id }"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="title" class="control-label">제목</label>
+			</div>
+			<div class="col-md-8" th:text="${board.title }"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="title" class="control-label">첨부파일</label>
+			</div>
+			<div class="col-md-8">
+				<th:block th:each="boardFileDTO:${boardFileDTOList }">
+					<a><span th:text="${boardFileDTO.originalFilename }"></span></a>
+					<img alt="" src="/upload/${boardFileDTO.storeFilename }"
+						width="300" />
+				</th:block>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="title" class="control-label">작성날짜</label>
+			</div>
+			<div class="col-md-8" th:text="${board.write_date }"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="text" class="control-label">내용</label>
+			</div>
+			<div class="col-md-8"
+				style="width: 500px; height: 400px; border: solid 1px;" th:text="
+				${board.content }"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-10 text-center">
+				<input type="button" class="btn btn-lg btn-primary" value="수정"
+					th:onclick="|location.href='@{/board/read(board_no=${board.board_no },cmd=modify)}'|">
+
+				<button type="button" class="btn btn-danger btn-lg"
+					onclick="location.href='/board/list'">
+					<i class="fa fa-fw fa-close"></i> 목록
+				</button>
+				<button type="button" class="btn btn-danger btn-lg"
+					onclick="location.href='/board/delete?board_no=${board.board_no}'"
+					id="deletebtn">
+					<i class="fa fa-fw fa-close"></i> 삭제
+				</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

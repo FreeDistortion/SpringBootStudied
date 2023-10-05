@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<th:block th:insert="~{include/top::head}"></th:block>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+/*  #toparea{
+		padding: 30px;
+	}  */
+/* body{
+		background-color: #edeef1
+	} */
+</style>
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<!-- 이곳에 top화면을 연결하세요" -->
+		<th:block th:insert="~{include/top::top}">
+	</div>
+	<div style="background-color: #edeef1; padding: 20px; height: 800px"
+		id="main">
+		<!-- 이곳에 mainContent화면을 연결하세요" -->
+		<th:block th:insert="~{include/mainContent::mainContent}">
+	</div>
+</body>
+</html>

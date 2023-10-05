@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>if~else</h2>
+	<h2>공유된 값: <span th:text="${myval}"></span></h2>
+	<h2>출력 결과: <span th:text="success" th:if="${myval>=90}"></span></h2>
+	<h2>출력 결과: <span th:text="fail" th:unless="${myval>=90}"></span></h2>
+	
+	<hr>
+	<h2>switch</h2>
+	<div th:switch="${myval}">
+		<span th:case="10">10대</span>
+		<span th:case="20">20대</span>
+		<span th:case="30">30대</span>
+		<span th:case="40">40대</span>
+		<span th:case="*">기타</span>
+		
+	</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.erp.board">
+	<select id="categorySelect" resultType="board" parameterType="String">
+		SELECT * FROM TBBOARD WHERE CATEGORY=#{category}
+	</select>
+
+	<select id="selectall" resultType="board">
+		SELECT * FROM TBBOARD
+	</select>
+	<!-- parameter name과 DTO의 member variable name이 동일해야 한다. -->
+	<!-- 
+		게시글 등록
+		1. 일반 내용 등록
+	 -->
+	<select id="insert" parameterType="board">
+		INSERT INTO TBBOARD VALUES(TBBOARD_SEQ.NEXTVAL,#{id},SYSDATE,#{title},#{content},#{category})
+	</select>
+	<!-- 
+		2. 게시글에 첨부되는 file 등록
+	 -->
+	 <select id="fileinsert" parameterType="java.util.List">
+	 	INSERT ALL
+	 	<foreach collection="list" item="file" separator=" ">
+	 		INTO BOARD_FILE VALUES(TBBOARD_SEQ.CURRVAL, #{file.originalFilename},#{file.storeFilename},#{file.boardFileorder})
+	 	</foreach>
+	 	SELECT * FROM DUAL
+	 </select>
+	
+	<select id="read" resultType="board" parameterType="String">
+		SELECT * FROM TBBOARD WHERE BOARD_NO=#{board_no}
+	</select>
+	
+	<!-- 게시글에 첨부된 file 목록 같이 조회 -->
+	<select id="fileselect" resultType="boardfile" parameterType="String">
+		SELECT * FROM BOARD_FILE WHERE BOARD_NO=#{board_no}
+	</select>	
+	
+	<select id="update" parameterType="board">
+		UPDATE TBBOARD SET TITLE=#{title}, CATEGORY=#{category}, CONTENT=#{content} WHERE BOARD_NO=#{board_no}
+	</select>
+	
+	<select id="delete" parameterType="String">
+		DELETE FROM TBBOARD WHERE BOARD_NO=#{board_no} 
+	</select>
+	
+	<select id="search" resultType="board" parameterType="String">
+		SELECT * FROM TBBOARD WHERE TITLE LIKE #{data}
+	</select>
+	
+	<select id="dynamicSearch" parameterType="Map" resultType="board">
+		select * from tbboard
+		<where>
+			<if test="tag=='title' and data!=''">
+				title like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='id' and data!=''">
+				id like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='content' and data!=''">
+				content like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='write_date' and data!=''">
+				 <![CDATA[
+					write_date <= #{data}
+				  ]]>
+				  
+				 <!--  write_date &lt;= #{data} -->
+			</if>
+		</where>
+	
+	</select>
+	
+</mapper>

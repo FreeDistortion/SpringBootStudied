@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>산술연산자</h2>
+	<ul>
+		<li>100+20: <span th:text="100+20"></span></li>
+		<li>100/3: <span th:text="100/3"></span></li>
+		<li>100%2: <span th:text="100%2==0"></span></li>
+
+	</ul>
+
+	<h2>비교연산자</h2>
+	<ul>
+		<li>100>20: <span th:text="100>20"></span></li>
+		<li>100 gt(lt) 20: <span th:text="100 gt 20"></span></li>
+		<li>100>=20: <span th:text="100>=20"></span></li>
+		<li>100 ge(le) 20: <span th:text="100 ge 20"></span></li>
+		<li>100==20: <span th:text="100==20"></span></li>
+		<li>100!=20: <span th:text="100!=20"></span></li>
+		
+		
+	</ul>
+
+</body>
+</html>

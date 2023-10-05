@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>1. 공유 객체 출력</h1>
+	<div th:text="${person}"></div>
+	<div th:text="${person.id}"></div>
+	<div th:text="${person.pass}"></div>
+	<div th:text="${person.name}"></div>
+
+	<h2>2. 공유된 object에서 DTO를 꺼내 출력</h2>
+	<table border="1">
+		<tr>
+			<td>id</td>
+			<td>pass</td>
+			<td>name</td>
+		</tr>
+		<tr th:each="p:${people}">
+			<td th:text="${p.id}"></td>
+			<td th:text="${p.pass}"></td>
+			<td th:text="${p.name}"></td>
+
+		</tr>
+	</table>
+
+	<h3>3. 조건에 따라 값 출력</h3>
+	<!-- 
+		id, name, score, p/np
+		90<score: p
+	 -->
+	<table>
+		<tr>
+			<td>id</td>
+			<td>name</td>
+			<td>score</td>
+			<td>P/N</td>
+		</tr>
+
+		<tr th:each="person:${people}">
+			<td th:text="${person.id}" />
+			<td th:text="${person.name}" />
+			<td th:text="${person.score}" />
+			<td>
+				<span th:if="${person.score>90}">Pass</span>
+				<span th:unless="${person.score>90}">Non-pass</span>
+			</td>
+		</tr>
+	</table>
+	
+	
+	<h3>반복문과 공유 객체 작업</h3>
+	<hr>
+	<!-- 
+	<h2><span th:text="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd HH:mm')))}"></span></h2>
+	<div th:each="i:${#numbers.sequence(1,10)}">
+		<div th:text="${i}"></div>
+	</div>
+	 -->
+	<h2>Hyperlink로 요청(get)</h2>
+	<h3><a th:href="@{/th/linktest(data1=${person.name})}">Request</a></h3>
+	<h3><a th:href="@{/th/linktest(data1=${person.name},id=${person.id})}">Request2</a></h3>
+</body>
+</html>

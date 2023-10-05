@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.erp.member">
+	<select id="login" resultType="member" parameterType="member">
+		SELECT M.*, D.DEPTNAME, J.MENUPATH, J.JOB_CATEGORY
+		FROM MEMBER M, DEPT D, JOB J
+		WHERE ID=#{id}
+		AND PASS=#{pass}
+		AND M.DEPTNO=D.DEPTNO
+		AND D.JOB_CATEGORY=J.JOB_ID
+
+	</select>
+
+</mapper>
