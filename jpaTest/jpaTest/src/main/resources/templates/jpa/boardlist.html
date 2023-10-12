@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/erp/common/css/main.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<body>
+
+	<div class="col-md-3" style="padding-bottom: 10px">
+		구분:
+		<form action="">
+			<select name="category" id="category">
+				<option value="all">전체게시물</option>
+				<option value="경조사">경조사</option>
+				<option value="사내소식">사내소식</option>
+				<option value="게시판">게시판</option>
+			</select>
+		</form>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>등록일</th>
+				<th>삭제</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="board:${boardlist}">
+				<td th:text="${board.boardNo}"></td>
+				<td><a
+					th:href="@{/board/read(boardNo=${board.boardNo},cmd=view)}">
+						<span th:text="${board.title}"></span>
+				</a></td>
+				<td><span th:text="${board.writer}"></span></td>
+				<td><span th:text="${board.updateDate}"></span></td>
+				<td><a href="/erp/board/delete?boardNo=${board.boardNo}">삭제</a></td>
+			</tr>
+			<tr>
+				<td colspan="5">
+					<a href="/jpa/page/list?pageNo=0">1</a>
+					<a href="/jpa/page/list?pageNo=1">2</a>
+					<a href="/jpa/page/list?pageNo=2">3</a>
+					<a href="/jpa/page/list?pageNo=3">4</a>
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</body>
+</html>

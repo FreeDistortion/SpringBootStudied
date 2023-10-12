@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mainLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:inline="javascript">
+	$(document).ready(function(){
+		$("#noajaxbtn").on("click",function(){
+			location.href="/erp/ajax/noajax?id="+$("#id1").val();
+		})	
+		$("#ajaxbtn").on("click",function(){
+			//ajax요청하기
+			var querydata = {"id":$("#id1").val()}
+			$.ajax({
+				url:"/erp/ajax/ajaxtest01" ,
+				type: "get",
+				data: querydata,
+				success:success_run ,
+				error:error_run
+			})//end ajax
+		})//end click
+		//구구단 ================================================================
+		$("#guguajaxbtn").on("click",function(){
+			//ajax요청하기
+			var querydata = {"dan":$("#dan").val()}
+			$.ajax({
+				url:"/erp/ajax/gugu" ,
+				type: "get",
+				data: querydata,
+				datatype:"text",
+				success:function(responsedata){
+					alert(responsedata);
+					//responsedata는 success함수 안에서만 액세스가 가능
+					$("#result2").html("구구단:"+responsedata);
+				} ,
+				error:error_run
+			})//end ajax
+		})//end click
+	});
+	//ajax요청이 성공하면 success_run이 자동으로 호출되면서 서버의 요청 결과가
+	//success_run매개변수로 전달이 된다.
+	function success_run(resultdata){
+		//console.log(resultdata);
+		//요청이 성공하면 서버에서 전달받은 데이터를 원하는 위치에 출력하기
+		$("#result").html("<h2>jquery:"+resultdata+"</h2>")
+	}
+	//ajax요청이 실패하면 호출되는 메소드로
+	//매개변수가 자동으로 전달
+	//객체, 응답메시지,에러메시지
+	function error_run(obj,resmsg,errormsg){
+		console.log("오류발생")
+		console.log("obj=>"+obj);
+		console.log("resmsg=>"+resmsg);
+		console.log("errormsg=>"+errormsg);
+	}
+</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>Ajax테스트하기</h3>
+		<form name="myform">
+			<input type="text" name="id" id="id1" /> 
+			<input type="text" name="name" id="name" /> 
+			<input type="button" id="noajaxbtn"	value="no aajx테스트"> 
+			<input type="button" id="ajaxbtn"	value="ajax테스트">
+		</form>
+		<div id="result" th:text="${msg}" style="color: red;font-weight: bold;"></div>
+
+		<h3>구구단출력하기</h3>
+		<form name="myform">
+			<input type="text" name="id" id="dan" /> <input type="button"
+				id="guguajaxbtn" value="구구단출력">
+		</form>
+		<div id="result2"></div>
+
+
+		<h3>Ajax테스트하기(JQuery...post)</h3>
+		<form name="myform">
+			<input type="text" name="id" id="id3" /> <input type="button"
+				id="ajaxbtn3" value="ajax테스트">
+		</form>
+		<div id="result3"></div>
+	</div>
+</body>
+</html>

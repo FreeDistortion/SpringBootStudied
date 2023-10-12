@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.erp.board">
+	<!-- 게시글조회 -->
+	<select id="selectall" resultType="board">
+		select * from tbboard	
+	</select>
+	<select id="categorySelect" parameterType="String" resultType="board">
+		select * from tbboard where category = #{category}
+	</select>
+	<select id="search" parameterType="String" resultType="board">
+		select * from tbboard where title like '%' || #{title} || '%'
+	</select>
+	<!-- where태그는 조건이 있는 경우는 where절 만들지만 조건이 없는 경우 where절을 만들지 않는다. -->
+		
+	<select id="dynamicSearch" parameterType="Map" resultType="board">
+		select * from tbboard
+		<where>
+			<if test="tag=='title' and data!=''">
+				title like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='id' and data!=''">
+				id like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='content' and data!=''">
+				content like '%' || #{data} || '%' 
+			</if>
+			<if test="tag=='write_date' and data!=''">
+				 <![CDATA[
+					write_date <= #{data}
+				  ]]>
+				  
+				 <!--  write_date &lt;= #{data} -->
+			</if>
+		</where>
+	
+	</select>
+	
+	
+	
+	
+	<!-- 파라미터명과 dto의 멤버변수명이 동일해야 한다. -->
+	<!-- 게시글등록
+	1. 게시글의 일반적인 내용을 등록
+	 -->
+	<insert id="insert" parameterType="board">
+		insert into tbboard
+		values(tbboard_seq.nextval,#{id},sysdate,#{title},#{content},#{category})
+	</insert>
+	<!--
+	2. 게시글의 첨부되는 파일의 정보를 등록  -->
+	<insert id="fileinsert" parameterType="java.util.List">
+		insert all
+		<foreach collection="list" item="file" separator=" ">
+			into board_file values(tbboard_seq.currval,
+						#{file.originalFilename},#{file.storeFilename},#{file.boardFileorder})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	
+	
+	
+	<!-- 게시글 상세조회하기  -->
+	<select id="read" resultType="board" parameterType="String">
+		select * from tbboard where board_no = #{board_no}
+	</select>
+	<!-- 게시글에 첨부된 파일의 목록을 같이 조회  -->
+	<select id="fileselect" parameterType="String" resultType="boardfile">
+		select * from board_file where board_no=#{board_no}
+	</select>
+	<select id="getfileinfo" parameterType="boardfile" resultType="boardfile">
+		select * from board_file where board_no=#{board_no} and boardFileorder=#{boardFileorder}
+	</select>
+	
+	
+	<!-- 게시글 수정하기 -->
+	<update id="update" parameterType="board">
+		update tbboard
+		set title=#{title}, content=#{content}, category=#{category}
+		where board_no=#{board_no}
+	</update>
+	<!-- 게시글 삭제하기 -->
+	<delete id="delete" parameterType="String">
+		delete from tbboard
+		where board_no=#{board_no}
+	</delete>
+</mapper>  
+
+
+
+

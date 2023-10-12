@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mainLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		상품목록을 조회하는 페이지
+		<!-- 
+			각 항목 성택하면 상세 페이지가 response될 수 있도록 product folder에 productRead.html 추가.
+			- 요청 path: /layout/prdread
+			- 아이템에 hyperlink 요청
+			- 요청할 때 prdno라는 parameter name에 prd001, prd002, prd003 값 전송(값은 DB에서 가져왔다고 가정)
+			- 상세페이지 실행화면
+		 -->
+		<ul>
+			<li><a th:href="@{/layout/prdread(prdno=${'prd001'},prdname=${'apple'})}">apple</a></li>
+			<li><a th:href="@{/layout/prdread(prdno=${'prd002'},prdname=${'pear'})}">pear</a></li>
+			<li><a th:href="@{/layout/prdread(prdno=${'prd003'},prdname=${'kiwi'})}">kiwi</a></li>
+			<li><a th:href="@{/layout/prdread(prdno=${'prd004'},prdname=${'orange'})}">orange</a></li>
+			
+		</ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mainLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#testbtn").on("click",function(){
+			var querydata={"boardno":$("#boardno").val()}
+			$.ajax({
+				url:"/erp/ajax/exam01",
+				type:"get",
+				data:querydata,//클라이언트에서  서버로 넘기는 파라미터
+				dataType:"json",//응답데이터의 종류
+				success:function(responsedata){
+					//alert(responsedata.title);
+					$("#no").text(responsedata.board_no);
+					$("#title").text(responsedata.title);
+					$("#writer").text(responsedata.id);
+					$("#content").text(responsedata.content);
+				},
+				error:error_run
+			})
+		});
+		
+		
+		
+		$("#testjsonbtn").on("click",function(){
+			$.ajax({
+				url:"/erp/ajax/exam02",
+				type:"get",
+				dataType:"json",//응답데이터의 종류
+				success:function(responsedata){
+					//alert(responsedata);
+					//alert(responsedata[0].title);
+					var printdata="";
+					for(i=0;i<responsedata.length;i++){
+						printdata = printdata + responsedata[i].board_no+","
+							+responsedata[i].id+","+responsedata[i].title+"<br/>"
+					}
+					$("#printarr").html(printdata);
+				},
+				error:error_run
+			})
+		});
+	})
+	function error_run(obj,resmsg,errormsg){
+		console.log("오류발생")
+		console.log("obj=>"+obj);
+		console.log("resmsg=>"+resmsg);
+		console.log("errormsg=>"+errormsg);
+	}
+</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form>
+			글번호:<input type="text" name="boardno" id="boardno"/>
+			<input type="button" value="ajax테스트(JSON오브젝트가져오기)" id="testbtn"/>
+			<input type="button" value="ajaxjson테스트(JSONArray가져오기)" id="testjsonbtn"/>
+		</form>
+		<form>
+			카테고리검색:<input type="text" name="category" id="category"/>
+			<input type="button" value="카테고리검색" id="testbtn"/>
+		</form> 
+		<div id="result">
+			<h4>글번호:<span id="no"></span></h4>
+			<h4>제목:<span id="title"></span></h4>
+			<h4>작성자:<span id="writer"></span></h4>
+			<h4>내용:<span id="content"></span></h4>
+		</div>
+		<div id="printarr">
+		
+		</div>
+	</div>
+</body>
+</html>

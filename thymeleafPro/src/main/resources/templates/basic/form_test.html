@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/th/formtest1" method="post">
+		<input type="text" name="test1" value="basic" class="myinput" th:name="${data}" th:value="${data}">
+		<input type="text" name="test1" value="basic" class="myinput" th:attrappend="class='_a'">
+		<input type="text" name="test2" value="basic" class="myinput" th:attrprepend="class='a_'">
+		<input type="text" name="test3" value="basic" class="myinput" th:classappend="a">
+		<br />
+		<br /> 
+		<input type="checkbox" name="subject" value="java" checked="checked">java
+		<input type="checkbox" name="subject" value="spring" th:checked="true">spring 
+		<input	type="checkbox" name="subject" value="hadoop" th:checked="false">hadoop 
+		<input	type="submit" value="서버로전송하기">
+	</form>
+
+</body>
+</html>
